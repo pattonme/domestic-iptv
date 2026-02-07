@@ -7,3 +7,11 @@
 - 📱 全兼容：支持VLC、PotPlayer、完美视频、电视盒子等所有m3u8播放器
 
 ## 直接使用（复制以下链接到播放器）
+https://raw.githubusercontent.com/pattonme/domestic-iptv/main/playlist.m3u8
+## 如何更新
+- 手动触发：仓库→Actions→选择工作流→Run workflow
+- 自动更新：每日早1点、晚1点自动执行，无需操作
+
+## 注意事项
+- 播放源来自全网公开资源，仅作学习交流，请勿商用
+- 若部分频道失效，等待自动更新或手动触发工作流即可
