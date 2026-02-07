@@ -1,46 +1,40 @@
-name: Update Domestic IPTV
+name: Auto IPTV - Pull + Check + Optimize + Generate
 on:
-  workflow_dispatch:  # 手动触发开关
+  workflow_dispatch:  # 手动触发
   schedule:
-    - cron: '0 0 * * *'  # 每天凌晨自动更新
+    - cron: '0 1,13 * * *'  # 每日早1点、晚1点各执行一次，双次更新更稳定
+  push:
+    branches: [main]  # 推代码自动触发校验
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions: write-all  # 赋予提交代码的权限
+    permissions: write-all
     steps:
-      # 第一步：拉取仓库代码
-      - name: Checkout Repository
+      - name: Checkout Self Repo
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      # 第二步：安装依赖工具（python3等）
-      - name: Install Required Tools
+      - name: Install Dependencies
         run: |
-          sudo apt update -y
-          sudo apt install -y python3 python3-pip curl dos2unix
+          sudo apt update -y && sudo apt install -y python3 python3-pip curl wget ffmpeg iputils-ping netcat-openbsd
+          pip3 install requests speedtest-cli beautifulsoup4 lxml
 
-      # 第三步：执行生成脚本，生成IPTV列表
-      - name: Generate IPTV Playlist
+      - name: Auto Pull + Check + Optimize + Generate IPTV
         run: |
-          python3 make_playlist.py
-          # 验证生成结果
+          chmod +x iptv_auto.py
+          python3 iptv_auto.py
+
+      - name: Push Optimized Playlist
+        run: |
+          git config --global user.name "IPTV-Auto-Bot"
+          git config --global user.email "iptv-auto-bot@github.com"
           if [ -f "playlist.m3u8" ]; then
-            echo "✅ IPTV列表生成成功，文件大小：$(du -h playlist.m3u8 | awk '{print $1}')"
-            # 显示前5行内容，确认格式正确
-            head -5 playlist.m3u8
+            git add playlist.m3u8
+            git commit -m "Auto update: Optimized IPTV playlist $(date +%Y-%m-%d_%H:%M:%S) | Auto check $(wc -l < playlist.m3u8 | awk '{print int($1/2)}') channels" || echo "✅ No new update"
+            git push origin main -f
           else
-            echo "❌ IPTV列表生成失败"
+            echo "❌ Playlist generate failed, skip push"
             exit 1
           fi
-
-      # 第四步：提交生成的列表到仓库
-      - name: Push Playlist to Repository
-        run: |
-          git config --global user.name "IPTV-Bot"
-          git config --global user.email "iptv-bot@example.com"
-          # 添加生成的文件
-          git add playlist.m3u8
-          # 提交（无更新时不报错）
-          git commit -m "Auto update domestic IPTV playlist: $(date +%Y-%m-%d %H:%M:%S)" || echo "✅ 无更新内容，无需提交"
-          # 推送更新
-          git push origin main -f
