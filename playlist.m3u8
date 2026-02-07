@@ -1,0 +1,17 @@
+#EXTM3U
+
+#EXTINF:-1 tvg-logo="https://p0.ssl.qhimg.com/t01065a244095ef204.png",CCTV-1 综合
+http://ivi.bupt.edu.cn/hls/cctv1hd.m3u8
+
+#EXTINF:-1 tvg-logo="https://p0.ssl.qhimg.com/t0108f52142c135254.png",CCTV-2 财经
+http://ivi.bupt.edu.cn/hls/cctv2hd.m3u8
+
+#EXTINF:-1 tvg-logo="https://p0.ssl.qhimg.com/t011f2891018090900.png",CCTV-3 综艺
+http://ivi.bupt.edu.cn/hls/cctv3hd.m3u8
+
+#EXTINF:-1 tvg-logo="https://p0.ssl.qhimg.com/t019828c5419091109.png",CCTV-4 中文国际
+http://ivi.bupt.edu.cn/hls/cctv4hd.m3u8
+
+#EXTINF:-1 tvg-logo="https://p0.ssl.qhimg.com/t019838d5419091110.png",CCTV-5 体育
+http://ivi.bupt.edu.cn/hls/cctv5hd.m3u8
+
