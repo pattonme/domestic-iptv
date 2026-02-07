@@ -1,0 +1,26 @@
+name: Update Domestic IPTV
+on:
+  workflow_dispatch:  # 支持手动触发
+  schedule:
+    - cron: '0 0 * * *'  # 每日自动更新
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install Basic Tools
+        run: sudo apt update && sudo apt install -y python3 curl dos2unix
+      
+      - name: Generate IPTV List
+        run: |
+          echo "✅ 基础环境已准备完成"
+      
+      - name: Push Update
+        run: |
+          git config --global user.name "IPTV-Bot"
+          git config --global user.email "bot@example.com"
+          git commit -m "Initial setup" --allow-empty || echo "无更新内容"
+          git push origin main -f
