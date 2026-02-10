@@ -8,7 +8,6 @@
 播放器直接使用的链接：
 https://raw.githubusercontent.com/pattonme/domestic-iptv/main/playlist.m3u8
 
-手动更新方法：
-仓库→Actions→选择工作流→Run workflow
+
 
 注意：仅作学习交流，请勿商用
